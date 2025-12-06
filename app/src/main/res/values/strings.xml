@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Link Resolver</string>
+    <string name="app_name_full">Link Resolver</string>
+    <string name="made_with">Made with</string>
+    <string name="about_card_title">About</string>
+    <string name="about_app_description">This app resolves Android 16 downloadCheck links.</string>
+    <string name="created_by_label">Created by</string>
+    <string name="creator_name">Abhinav Verma</string>
+    <string name="github_button_text">GitHub</string>
+    <string name="telegram_button_text">Telegram</string>
+    <string name="donate_card_title">Donate</string>
+    <string name="buy_me_a_coffee_button_text">Buy me a coffee</string>
+    <string name="upi_id_value">abhinavftp98@axl</string>
+    <string name="upi_id_copy_label">Tap to copy UPI ID</string>
+    <string name="upi_id_copied_toast">UPI ID copied to clipboard</string>
+    <string name="footer_copyright">Copyright © 2024 Link Resolver. All rights reserved.</string>
+    <string name="app_icon_desc">App icon</string>
+    <string name="creator_avatar_desc">Creator avatar</string>
+</resources>
