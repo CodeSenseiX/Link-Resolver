@@ -2,6 +2,7 @@ package com.abhinavverma.linkresolver
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -13,10 +14,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Link
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.outlined.Assignment
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -107,6 +109,7 @@ fun ResolveScreen(modifier: Modifier = Modifier) {
     var isLoading by remember { mutableStateOf(false) }
     val clipboardManager = LocalClipboardManager.current
     val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
 
     val resolveButtonInteractionSource = remember { MutableInteractionSource() }
     val isResolveButtonPressed by resolveButtonInteractionSource.collectIsPressedAsState()
@@ -127,7 +130,34 @@ fun ResolveScreen(modifier: Modifier = Modifier) {
                 onValueChange = { inputUrl = it },
                 label = { Text("Paste downloadCheck link") },
                 modifier = Modifier.fillMaxWidth(),
-                leadingIcon = { Icon(Icons.Filled.Link, contentDescription = "URL Icon") },
+                trailingIcon = {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        if (inputUrl.isEmpty()) {
+                            IconButton(
+                                onClick = {
+                                    clipboardManager.getText()?.let {
+                                        inputUrl = it.text
+                                    }
+                                }
+                            ) {
+                                Icon(
+                                    Icons.Outlined.Assignment,
+                                    contentDescription = "Paste"
+                                )
+                            }
+                        }
+                        if (inputUrl.isNotEmpty()) {
+                            IconButton(
+                                onClick = { inputUrl = "" }
+                            ) {
+                                Icon(
+                                    Icons.Filled.Clear,
+                                    contentDescription = "Clear"
+                                )
+                            }
+                        }
+                    }
+                },
                 singleLine = true,
                 shape = RoundedCornerShape(12.dp),
                 colors = OutlinedTextFieldDefaults.colors(
@@ -209,7 +239,6 @@ fun ResolveScreen(modifier: Modifier = Modifier) {
                                 style = MaterialTheme.typography.bodyMedium
                             )
                             Spacer(modifier = Modifier.height(12.dp))
-                            val context = LocalContext.current
                             Row(
                                 modifier = Modifier.align(Alignment.End),
                                 horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -233,6 +262,7 @@ fun ResolveScreen(modifier: Modifier = Modifier) {
                                     onClick = {
                                         coroutineScope.launch {
                                             clipboardManager.setText(AnnotatedString(result))
+                                            Toast.makeText(context, "Copied!", Toast.LENGTH_SHORT).show()
                                         }
                                     },
                                     interactionSource = copyButtonInteractionSource,
